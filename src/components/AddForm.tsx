@@ -17,6 +17,10 @@ import {
   Textarea,
   useDisclosure,
   useToast,
+  Box,
+  Icon,
+  HStack,
+  VStack,
 } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -24,6 +28,8 @@ import { MdAdd } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 import categories from "../constants/categories";
 import useNotesHook from "../hooks/useNotesHook";
+import { MdOutlineCategory } from "react-icons/md";
+import { Plus, FileText, Tag, AlignLeft } from "lucide-react"
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -116,93 +122,126 @@ const AddForm = () => {
       >
         Add
       </Button>
-      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered isOpen={isOpen} onClose={onClose} size="lg">
         {overlay}
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}>
           <ModalContent>
-            <ModalHeader>Add Note</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              <FormControl>
-                <FormLabel fontSize={{ base: "sm", sm: "inherit" }}>
-                  Title
-                </FormLabel>
-                <Input
-                  {...register("title")}
-                  fontSize={{ base: "sm", sm: "inherit" }}
-                  autoFocus
-                  placeholder="Note title"
-                  colorScheme="primary"
-                  maxLength={50}
-                />
-                {errors.title && (
-                  <Text color="red.300" mt={2}>
-                    {errors.title.message}
+            <ModalHeader>
+              <VStack align="flex-start" spacing={2}>
+                <Flex align="center" gap={2}>
+                  <Box bg="gray.100" p={2} className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                    <Icon as={FileText} boxSize={5} color="gray.500" />
+                  </Box>
+                  <Text fontSize="xl" fontWeight="bold">
+                    Create New Note
                   </Text>
-                )}
-              </FormControl>
-
-              <FormControl mt={4}>
-                <Flex alignItems={"center"}>
-                  <FormLabel fontSize={{ base: "sm", sm: "inherit" }}>
-                    Description (optional)
-                  </FormLabel>
-                  <Spacer />
-                  <Text
-                    fontSize={{ base: "2xs", sm: "xs" }}
-                    color={"primary"}
-                  >{`${charLeft}/200`}</Text>
                 </Flex>
-                <Textarea
-                  {...register("description")}
-                  placeholder="Description..."
-                  maxLength={200}
-                  minH={"150px"}
-                  onChange={handleCharChange}
-                />
-                {errors.description && (
-                  <Text color="red.300" mt={2}>
-                    {errors.description.message}
-                  </Text>
-                )}
-              </FormControl>
+                <Text fontSize="sm" color="gray.500">
+                  Add a new note to organize your thoughts and ideas
+                </Text>
+              </VStack>
+            </ModalHeader>
 
-              <FormControl mt={4}>
-                <FormLabel fontSize={{ base: "sm", sm: "inherit" }}>
-                  Category
-                </FormLabel>
-                <Select
-                  {...register("category")}
-                  fontSize={{ base: "sm", sm: "inherit" }}
-                >
-                  {categories.map(
-                    (cat, index) =>
-                      index > 0 && (
-                        <option key={index} value={cat}>
-                          {cat}
-                        </option>
-                      )
+            <ModalCloseButton mt={2} />
+            <ModalBody pb={6}>
+              <VStack spacing={4}>
+                <FormControl>
+                  <HStack spacing={3} mb={2}>
+                    <Icon as={Tag} boxSize={5} color="gray.500" />
+                    <FormLabel fontSize="md" fontWeight="medium" mb={0}>
+                      Title
+                    </FormLabel>
+                  </HStack>
+                  <Input
+                    {...register("title")}
+                    fontSize="md"
+                    autoFocus
+                    required
+                    placeholder="Enter note title..."
+                    colorScheme="primary"
+                    maxLength={50}
+                    size="md"
+                  />
+                  {errors?.title && (
+                    <Text color="red.300" mt={2} fontSize="sm">
+                      {errors?.title?.message}
+                    </Text>
                   )}
-                </Select>
-              </FormControl>
+                </FormControl>
+
+                <FormControl>
+                  <Flex alignItems="center" mb={2}>
+                    <HStack spacing={3}>
+                      <Icon as={AlignLeft} boxSize={5} color="gray.500" />
+                      <FormLabel fontSize="md" fontWeight="medium" mb={0}>
+                        Description (optional)
+                      </FormLabel>
+                    </HStack>
+                    <Spacer />
+                    <Text
+                      fontSize="sm"
+                      color="gray.500"
+                    >{`${charLeft}/200`}</Text>
+                  </Flex>
+                  <Textarea
+                    {...register("description")}
+                    placeholder="Add description for your note..."
+                    maxLength={200}
+                    minH={"150px"}
+                    onChange={handleCharChange}
+                    size="md"
+                  />
+                  {errors?.description && (
+                    <Text color="red.300" mt={2} fontSize="sm">
+                      {errors?.description?.message}
+                    </Text>
+                  )}
+                </FormControl>
+
+                <FormControl>
+                  <HStack spacing={3} mb={2}>
+                    <Icon as={MdOutlineCategory} boxSize={5} color="gray.500" />
+                    <FormLabel fontSize="md" fontWeight="medium" mb={0}>
+                      Category
+                    </FormLabel>
+                  </HStack>
+                  <Select
+                    {...register("category")}
+                    fontSize="md"
+                    size="md"
+                  >
+                    {categories.map(
+                      (cat, index) =>
+                        index > 0 && (
+                          <option key={index} value={cat}>
+                            {cat}
+                          </option>
+                        )
+                    )}
+                  </Select>
+                </FormControl>
+              </VStack>
             </ModalBody>
 
             <ModalFooter>
-              <Button
-                disabled={!isValid}
-                type={"submit"}
-                colorScheme="primary"
-                mr={3}
-                fontSize={{ base: "sm", sm: "inherit" }}
-              >
-                Add
-              </Button>
-              <Button
-                onClick={onClose}
-                fontSize={{ base: "sm", sm: "inherit" }}
-              >
-                Cancel
-              </Button>
+              <HStack spacing={4}>
+                <Button
+                  onClick={onClose}
+                  variant="outline"
+                  size="md"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  disabled={!isValid}
+                  type="submit"
+                  colorScheme="primary"
+                  leftIcon={<Plus size={15} />}
+                  fontSize={{ base: "sm", sm: "inherit" }}
+                >
+                  Create
+                </Button>
+              </HStack>
             </ModalFooter>
           </ModalContent>
         </form>

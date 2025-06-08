@@ -14,7 +14,6 @@ import {
   useToast,
   Box,
   Flex,
-  Tag,
   Spinner,
 } from "@chakra-ui/react";
 import { MutableRefObject, useState } from "react";
