@@ -48,7 +48,7 @@ const NoteCard = ({ note }: Props) => {
         <HStack justifyContent={"space-between"} mb={5}>
           <Category category={note.category} />
           <HStack spacing={0}>
-            <Tooltip placement="top" label="Check">
+            <Tooltip label={note.completed ? "Mark incomplete" : "Mark complete"}>
               <IconButton
                 size={{ base: "sm", sm: "md" }}
                 isRound={true}

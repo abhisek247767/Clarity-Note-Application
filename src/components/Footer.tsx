@@ -7,14 +7,13 @@ import {
   Text,
   useColorModeValue,
   VisuallyHidden,
+  Tooltip,
 } from "@chakra-ui/react";
-import {  FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-
 import { ReactNode } from "react";
 import { MdInstallMobile } from "react-icons/md";
 import { useState, useEffect } from "react";
-
 
 const SocialButton = ({
   children,
@@ -26,30 +25,33 @@ const SocialButton = ({
   href: string;
 }) => {
   return (
-    <chakra.button
-      bg={useColorModeValue("white.100", "gray.800")}
-      rounded={"full"}
-      w={8}
-      h={8}
-      cursor={"pointer"}
-      as={"a"}
-      href={href}
-      display={"inline-flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      transition={"background 0.3s ease"}
-      _hover={{
-        bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
-      }}
-    >
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
+    <Tooltip label={label} placement="top" hasArrow>
+      <chakra.button
+        bg={useColorModeValue("white.100", "gray.800")}
+        rounded={"full"}
+        w={8}
+        h={8}
+        cursor={"pointer"}
+        as={"a"}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        display={"inline-flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        transition={"background 0.3s ease"}
+        _hover={{
+          bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+        }}
+      >
+        <VisuallyHidden>{label}</VisuallyHidden>
+        {children}
+      </chakra.button>
+    </Tooltip>
   );
 };
 
 function Footer() {
-
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   useEffect(() => {
@@ -90,21 +92,23 @@ function Footer() {
           <Text fontSize={{ base: 11, sm: "inherit" }}>
             Made by <a href="https://github.com/abhisek247767" rel="noferrer" target="_blank" style={{ color: useColorModeValue("darkviolet", "violet"), fontWeight: "700" }} >Abhisek Roy</a>. All rights reserved
           </Text>
-          <Button
-            size={{ base: "sm", sm: "md" }}
-            leftIcon={<MdInstallMobile />}
-            colorScheme="primary"
-            className="px-2"
-            onClick={handleInstallPrompt}
-          >
-            Install
-          </Button>
+          <Tooltip label="Install this app" placement="top" hasArrow>
+            <Button
+              size={{ base: "sm", sm: "md" }}
+              leftIcon={<MdInstallMobile />}
+              colorScheme="primary"
+              className="px-2"
+              onClick={handleInstallPrompt}
+            >
+              Install
+            </Button>
+          </Tooltip>
         </div>
         <Stack direction={"row"} spacing={6}>
-          <SocialButton label={"Linkedin"} href={"https://www.linkedin.com/in/royabhisek247767/"}>
+          <SocialButton label={"LinkedIn"} href={"https://www.linkedin.com/in/royabhisek247767/"}>
             <FaLinkedin />
           </SocialButton>
-          <SocialButton label={"Github"} href={"https://github.com/abhisek247767"}>
+          <SocialButton label={"GitHub"} href={"https://github.com/abhisek247767"}>
             <FaGithub />
           </SocialButton>
           <SocialButton label={"Twitter"} href={"https://x.com/abhisekroy169"}>
