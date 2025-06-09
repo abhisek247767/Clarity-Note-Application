@@ -63,7 +63,7 @@ const DeleteForm = ({ note, otherButtonRef }: Props) => {
           variant="ghost"
           aria-label="Delete"
           icon={<DeleteIcon />}
-          color="red.50"
+          color="red.500"
           _hover={{ bg: "red.50", color: "red.600" }}
           onClick={onOpen}
         />
@@ -100,7 +100,7 @@ const DeleteForm = ({ note, otherButtonRef }: Props) => {
           <ModalBody>
 
 
-            <Text fontSize="sm" color="gray.200" mt={4}>
+            <Text fontSize="sm" mt={4}>
               Are you sure you want to permanently delete this note? This action cannot be undone.
             </Text>
           </ModalBody>
