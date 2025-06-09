@@ -63,7 +63,7 @@ const DeleteForm = ({ note, otherButtonRef }: Props) => {
           variant="ghost"
           aria-label="Delete"
           icon={<DeleteIcon />}
-          color="red.500"
+          color="red.50"
           _hover={{ bg: "red.50", color: "red.600" }}
           onClick={onOpen}
         />
